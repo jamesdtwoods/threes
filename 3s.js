@@ -36,7 +36,11 @@ let gamesStarted = false;
 let gameOver = false;
 let playerWon = false;
 let dealerCards = [];
+let dealerDownHiddenCards = [];
+let dealerDownShownCards = [];
 let playerCards = [];
+let playerDownHiddenCards = [];
+let playerDownShownCards = [];
 let dealerScore = 0;
 let playerScore = 0;
 let deck = [];
@@ -64,14 +68,19 @@ newGameButton.addEventListener("click", function () {
   newGameButton.style.display = "none";
   hitButton.style.display = "inline";
   stayButton.style.display = "inline";
-  showStatus(playerCards);
+  console.log('player hand in new game', playerCards);
+  console.log('player down hidden hand in new game', playerDownHiddenCards);
+  console.log('player down shown hand in new game', playerDownShownCards);
+  showStatus(playerCards, dealerCards, playerDownShownCards, playerDownHiddenCards);
 });
 
 hitButton.addEventListener("click", function () {
-  playerCards.push(getNextCard());
-  console.log('player hand', playerCards);
+  playerCards.push(getNextCard('playerHand'));
+  console.log('player hand in hit button', playerCards);
+  console.log('player down hidden hand in hit button', playerDownHiddenCards);
+  console.log('player down shown hand in hit button', playerDownShownCards);
   checkForEndOfGame();
-  showStatus(playerCards);
+  showStatus(playerCards, dealerCards, playerDownShownCards, playerDownHiddenCards);
 });
 
 stayButton.addEventListener("click", function () {
@@ -94,12 +103,11 @@ function createDeck() {
   return deck;
 }
 
-
-function showStatus(playerCards) {
-  if (!gamesStarted) {
-    textArea.innerText = "Welcome to BlackJack";
-    return;
-  }
+function showStatus(playerCards, dealerCards, playerDownShownCards, playerDownHiddenCards) {
+  // if (!gamesStarted) {
+  //   textArea.innerText = "Welcome to BlackJack";
+  //   return;
+  // }
 
   //   let dealerCardString = '';
   //   for (let i = 0; i < dealerHandCards.length; i++) {
@@ -111,10 +119,34 @@ function showStatus(playerCards) {
   for (let i = 0; i < playerCards.length; i++) {
     playerCardString += getCardString(playerCards[i]) + "\n";
   }
-
   updateScores();
-
   document.getElementById('player-hand').innerHTML += playerCardString;
+
+  console.log('playerDownShownCards in status', playerDownShownCards);
+  document.getElementById('player-down-shown').innerHTML = ''
+  let playerDownShownString = '';
+  for (let i = 0; i < playerDownShownCards.length; i++) {
+    playerDownShownString += getCardString(playerDownShownCards[i]) + "\n";
+  }
+  updateScores();
+  document.getElementById('player-down-shown').innerHTML += playerDownShownString;
+
+  console.log('playerDownHiddenCards in status', playerDownHiddenCards);
+  document.getElementById('player-down-hidden').innerHTML = ''
+  let playerDownHiddenString = '';
+  for (let i = 0; i < playerDownHiddenCards.length; i++) {
+    playerDownHiddenString += getCardString(playerDownHiddenCards[i]) + "\n";
+  }
+  updateScores();
+  document.getElementById('player-down-hidden').innerHTML += playerDownHiddenString;
+
+  document.getElementById('dealer-hand').innerHTML = ''
+  let dealerCardString = '';
+  for (let i = 0; i < dealerCards.length; i++) {
+    dealerCardString += getCardString(dealerCards[i]) + "\n";
+  }
+  updateScores();
+  document.getElementById('dealer-hand').innerHTML += dealerCardString;
 
   if (gameOver) {
     if (playerWon) {
@@ -138,6 +170,7 @@ function shuffleDeck(deck) {
 }
 
 function getCardString(card) {
+  console.log('card string', card);
   return card.value + " of " + card.suit;
 }
 
@@ -146,7 +179,6 @@ function getNextCard(pile) {
   nextCard.pile = pile
   return nextCard
 }
-//thing
 
 function getCardNumericValue(card) {
   switch (card.value) {
