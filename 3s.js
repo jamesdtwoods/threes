@@ -86,7 +86,7 @@ hitButton.addEventListener("click", function () {
 stayButton.addEventListener("click", function () {
   gameOver = true;
   checkForEndOfGame();
-  showStatus();
+  showStatus(playerCards, dealerCards, playerDownShownCards, playerDownHiddenCards);
 });
 
 function createDeck() {
@@ -170,13 +170,13 @@ function shuffleDeck(deck) {
 }
 
 function getCardString(card) {
-  console.log('card string', card);
   return card.value + " of " + card.suit;
 }
 
 function getNextCard(pile) {
   let nextCard = deck.shift()
   nextCard.pile = pile
+  console.log('next card', nextCard);
   return nextCard
 }
 
@@ -239,13 +239,13 @@ function checkForEndOfGame() {
   //     }
   //   }
 
-  if (playerDownHiddenCards.length = 0) {
-    playerWon = true;
-    gameOver = true;
-  } else if (playerDownHiddenCards.length = 0) {
-    playerWon = false;
-    gameOver = true;
-  }
+  // if (playerDownHiddenCards.length = 0) {
+  //   playerWon = true;
+  //   gameOver = true;
+  // } else if (playerDownHiddenCards.length = 0) {
+  //   playerWon = false;
+  //   gameOver = true;
+  // }
   // newGameButton.style.display = "inline";
   // hitButton.style.display = "none";
   // stayButton.style.display = "none";
