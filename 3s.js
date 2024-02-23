@@ -95,7 +95,8 @@ function createDeck() {
     for (let valueIdx = 0; valueIdx < values.length; valueIdx++) {
       let card = {
         suit: suits[suitIdx],
-        value: values[valueIdx]
+        value: values[valueIdx],
+        text: `${values[valueIdx]} of ${suits[suitIdx]}`
       };
       deck.push(card);
     }
@@ -109,44 +110,27 @@ function showStatus(playerCards, dealerCards, playerDownShownCards, playerDownHi
   //   return;
   // }
 
-  //   let dealerCardString = '';
-  //   for (let i = 0; i < dealerHandCards.length; i++) {
-  //     dealerCardString += getCardString(dealerHandCards[i]) + ' ' + getCardNumericValue(dealerHandCards[i]) + "\n";
-  //   }
-
   document.getElementById('player-hand').innerHTML = ''
-  let playerCardString = '';
   for (let i = 0; i < playerCards.length; i++) {
-    playerCardString += getCardString(playerCards[i]) + "\n";
+    document.getElementById('player-hand').innerHTML += playerCards[i].text + "\n";
   }
-  updateScores();
-  document.getElementById('player-hand').innerHTML += playerCardString;
 
-  console.log('playerDownShownCards in status', playerDownShownCards);
   document.getElementById('player-down-shown').innerHTML = ''
-  let playerDownShownString = '';
   for (let i = 0; i < playerDownShownCards.length; i++) {
-    playerDownShownString += getCardString(playerDownShownCards[i]) + "\n";
+    document.getElementById('player-down-shown').innerHTML += playerDownShownCards[i].text + "\n";
   }
-  updateScores();
-  document.getElementById('player-down-shown').innerHTML += playerDownShownString;
 
-  console.log('playerDownHiddenCards in status', playerDownHiddenCards);
   document.getElementById('player-down-hidden').innerHTML = ''
-  let playerDownHiddenString = '';
   for (let i = 0; i < playerDownHiddenCards.length; i++) {
-    playerDownHiddenString += getCardString(playerDownHiddenCards[i]) + "\n";
+    document.getElementById('player-down-hidden').innerHTML += playerDownHiddenCards[i].text + "\n";
   }
-  updateScores();
-  document.getElementById('player-down-hidden').innerHTML += playerDownHiddenString;
 
   document.getElementById('dealer-hand').innerHTML = ''
-  let dealerCardString = '';
   for (let i = 0; i < dealerCards.length; i++) {
-    dealerCardString += getCardString(dealerCards[i]) + "\n";
+    document.getElementById('dealer-hand').innerHTML += dealerCards[i].text + "\n";
   }
+
   updateScores();
-  document.getElementById('dealer-hand').innerHTML += dealerCardString;
 
   if (gameOver) {
     if (playerWon) {
